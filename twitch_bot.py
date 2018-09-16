@@ -10,16 +10,9 @@ with open(configFile) as f:
     twitch = config_json['twitch']
     slack = config_json['slack']
 
-    # Set Twitch headers
-    twitch['headers'] = {
-        'Client-ID': twitch['clientID'],
-        'Authorization': twitch['clientSecret'],
-    }
-
 
 # Send message to Slack
 def sendSlackAlert(response_json, channel):
-    logo = json.loads(response_json)['stream']['channel']['logo']
     data = {
         'text': '{0} is streaming: https://www.twitch.tv/{0}'.format(channel)
     }
@@ -57,13 +50,13 @@ def updateLiveStatus(channel, isLive):
 def checkTwitch():
     for channel in twitch['channels']:
         # Build chanel URL
-        baseUrl = twitch['api'] + channel
+        baseUrl = '{}{}?client_id={}'.format(twitch['api'], channel, twitch['clientID'])
         checkTwitchChannel(baseUrl, channel)
 
 
 # Check channel to see if live
 def checkTwitchChannel(url, channel):
-    response = requests.get(url, headers=twitch['headers'])
+    response = requests.get(url)
     currentStatus = False
     oldStatus = getOldStatus(channel)
 

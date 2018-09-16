@@ -1,0 +1,11 @@
+{
+    "twitch": {
+        "api": "https://api.twitch.tv/kraken/streams/",
+        "channels": [""],
+        "clientID": "<clientId",
+        "clientSecret": "<clientSecret"
+    },
+    "slack": {
+        "slackHookUrl": "<slackHookUrl"
+    }
+}
